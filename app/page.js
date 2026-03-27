@@ -1,3 +1,3 @@
 export default function page() {
-  return <h1>HELLO NEXT!</h1>;
+  return <h1>Nestoria. your next place to stay.</h1>;
 }
