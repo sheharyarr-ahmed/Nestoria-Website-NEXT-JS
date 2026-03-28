@@ -1,5 +1,9 @@
 import Counter from "@/app/_Components/Counter";
 
+export const metadata = {
+  title: "Cabins",
+};
+
 export default async function Page() {
   return (
     <div>
