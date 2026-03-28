@@ -1,6 +1,8 @@
 import Logo from "./_Components/Logo";
 import Navigation from "./_Components/Navigation";
 
+import "@/app/_styles/globals.css";
+
 export const metadata = {
   title: "Nestoria",
 };
@@ -8,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body>
+      <body className="bg-primary-950 text-primary-100 min-h-screen">
         <header>
           <Logo />
           <Navigation />
