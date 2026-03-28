@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Navigation from "./Components/Navigation";
+import Navigation from "./_Components/Navigation";
 export default function Page() {
   return (
     <div>

@@ -1,5 +1,5 @@
-import Logo from "./Components/Logo";
-import Navigation from "./Components/Navigation";
+import Logo from "./_Components/Logo";
+import Navigation from "./_Components/Navigation";
 
 export const metadata = {
   title: "Nestoria",
