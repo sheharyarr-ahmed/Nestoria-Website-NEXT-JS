@@ -1,3 +1,5 @@
+import Spinner from "./_Components/Spinner";
+
 export default function Laoding() {
-  return <p>LOADING DATA...</p>;
+  return <Spinner />;
 }
