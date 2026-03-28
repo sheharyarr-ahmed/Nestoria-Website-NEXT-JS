@@ -1,6 +1,11 @@
+import Image from "next/image";
+
 export const metadata = {
   title: "About",
 };
+
+import image1 from "@/public/about-1.jpg";
+import image2 from "@/public/about-2.jpg";
 export default function Page() {
   return (
     <div className="grid grid-cols-5 gap-x-24 gap-y-32 text-lg items-center">
@@ -13,33 +18,40 @@ export default function Page() {
           <p>
             Where nature&apos;s beauty and comfortable living blend seamlessly.
             Hidden away in the heart of the Italian Dolomites, this is your
-            paradise away from home. But it&apos;s not just about the luxury cabins.
-            It&apos;s about the experience of reconnecting with nature and enjoying
-            simple pleasures with family.
+            paradise away from home. But it&apos;s not just about the luxury
+            cabins. It&apos;s about the experience of reconnecting with nature
+            and enjoying simple pleasures with family.
           </p>
           <p>
             Our 8 luxury cabins provide a cozy base, but the real freedom and
-            peace you&apos;ll find in the surrounding mountains. Wander through lush
-            forests, breathe in the fresh air, and watch the stars twinkle above
-            from the warmth of a campfire or your hot tub.
+            peace you&apos;ll find in the surrounding mountains. Wander through
+            lush forests, breathe in the fresh air, and watch the stars twinkle
+            above from the warmth of a campfire or your hot tub.
           </p>
           <p>
-            This is where memorable moments are made, surrounded by nature&apos;s
-            splendor. It&apos;s a place to slow down, relax, and feel the joy of
-            being together in a beautiful setting.
+            This is where memorable moments are made, surrounded by
+            nature&apos;s splendor. It&apos;s a place to slow down, relax, and
+            feel the joy of being together in a beautiful setting.
           </p>
         </div>
       </div>
 
       <div className="col-span-2">
-        <img
-          src="/about-1.jpg"
+        <Image
+          src={image1}
+          placeholder="blur"
+          quality={80}
           alt="Family sitting around a fire pit in front of cabin"
         />
       </div>
 
-      <div className="col-span-2">
-        <img src="/about-2.jpg" alt="Family that manages The Wild Oasis" />
+      <div className="relative aspect-square col-span-2">
+        <Image
+          src="/about-2.jpg"
+          fill
+          className="object-cover"
+          alt="Family that manages The Wild Oasis"
+        />
       </div>
 
       <div className="col-span-3">
@@ -58,9 +70,9 @@ export default function Page() {
             Over the years, we&apos;ve maintained the essence of The Wild Oasis,
             blending the timeless beauty of the mountains with the personal
             touch only a family business can offer. Here, you&apos;re not just a
-            guest; you&apos;re part of our extended family. So join us at The Wild
-            Oasis soon, where tradition meets tranquility, and every visit is
-            like coming home.
+            guest; you&apos;re part of our extended family. So join us at The
+            Wild Oasis soon, where tradition meets tranquility, and every visit
+            is like coming home.
           </p>
 
           <div>
