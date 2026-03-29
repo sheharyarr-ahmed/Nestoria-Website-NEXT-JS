@@ -4,6 +4,7 @@ import CabinList from "../_Components/CabinList";
 import { Suspense } from "react";
 import Spinner from "../_Components/Spinner";
 
+export const revalidate = 0; //the concept of isr cacheing
 export const metadata = {
   title: "Cabins",
 };
@@ -24,6 +25,8 @@ export default async function Page() {
       </p>
       <Suspense fallback={<Spinner />}>
         <CabinList />
+        {/* the concept of partial rendering is implemented in the cabin list
+        cacheing. */}
       </Suspense>
     </div>
   );

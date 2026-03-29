@@ -1,6 +1,8 @@
+import { unstable_noStore as noStore } from "next/cache";
 import CabinCard from "@/app/_Components/CabinCard";
 import { getCabins } from "@/app/_lib/data-service";
 async function CabinList() {
+  noStore(); //partial pre rednering concept
   const cabins = await getCabins();
 
   if (!cabins.length) return null;
