@@ -1,15 +1,16 @@
-import CabinCard from "@/app/_Components/CabinCard";
-import { getCabins } from "../_lib/data-service";
 import CabinList from "../_Components/CabinList";
 import { Suspense } from "react";
 import Spinner from "../_Components/Spinner";
+import Filter from "../_Components/Filter";
 
 export const revalidate = 0; //the concept of isr cacheing
 export const metadata = {
   title: "Cabins",
 };
 
-export default async function Page() {
+export default async function Page({ searchParams }) {
+  const filter = searchParams?.capacity ?? "all";
+
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -23,8 +24,11 @@ export default async function Page() {
         home away from home. The perfect spot for a peaceful, calm vacation.
         Welcome to paradise.
       </p>
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <div className="flex justify-end mb-8">
+        <Filter />
+      </div>
+      <Suspense fallback={<Spinner />} key={filter}>
+        <CabinList filter={filter} />
         {/* the concept of partial rendering is implemented in the cabin list
         cacheing. */}
       </Suspense>
