@@ -30,9 +30,31 @@
   }
 }
 
-For data picker .rdp {
-  --rdp-cell-size: 32px !important;
+.rdp {
+  --rdp-cell-size: 28px !important;
   --rdp-accent-color: theme("colors.accent.500") !important;
   --rdp-background-color: theme("colors.accent.600") !important;
   margin: 0 !important;
+  width: 100%;
+}
+
+.reservation-picker {
+  max-width: 100%;
+}
+
+.rdp-months {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  justify-content: center;
+  gap: 0.5rem !important;
+}
+
+.rdp-month {
+  max-width: max-content;
+}
+
+.rdp-caption_label,
+.rdp-dropdown {
+  font-size: 0.85rem;
 }
