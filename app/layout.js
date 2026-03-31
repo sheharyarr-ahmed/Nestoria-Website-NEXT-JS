@@ -2,6 +2,7 @@ import Logo from "./_Components/Logo";
 import Navigation from "./_Components/Navigation";
 import "@/app/_styles/globals.css";
 import Header from "./_Components/Header";
+import { ReservationProvider } from "./_Components/ReservationContext";
 
 export const metadata = {
   title: {
@@ -15,12 +16,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html>
-      <body
-        className="bg-primary-950 text-primary-100 antialiased min-h-screen min-h-screen flex flex-col relative"
-      >
+      <body className="bg-primary-950 text-primary-100 antialiased min-h-screen min-h-screen flex flex-col relative">
         <Header />
         <div className="flex-1 px-8 py-12 grid">
-          <main className="max-w-7xl mx-auto w-full">{children}</main>
+          <main className="max-w-7xl mx-auto w-full">
+            <ReservationProvider>{children}</ReservationProvider>
+          </main>
         </div>
       </body>
     </html>

@@ -2,6 +2,7 @@ import CabinList from "../_Components/CabinList";
 import { Suspense } from "react";
 import Spinner from "../_Components/Spinner";
 import Filter from "../_Components/Filter";
+import ReservationReminder from "../_Components/ReservationReminder";
 
 export const revalidate = 0; //the concept of isr cacheing
 export const metadata = {
@@ -31,6 +32,7 @@ export default async function Page({ searchParams }) {
         <CabinList filter={filter} />
         {/* the concept of partial rendering is implemented in the cabin list
         cacheing. */}
+        <ReservationReminder />
       </Suspense>
     </div>
   );

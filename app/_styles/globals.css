@@ -58,3 +58,12 @@
 .rdp-dropdown {
   font-size: 0.85rem;
 }
+
+.rdp-range_start .rdp-day_button,
+.rdp-range_end .rdp-day_button,
+.rdp-range_middle .rdp-day_button,
+.rdp-selected .rdp-day_button {
+  background-color: theme("colors.accent.500") !important;
+  border-color: theme("colors.accent.500") !important;
+  color: theme("colors.primary.900") !important;
+}
