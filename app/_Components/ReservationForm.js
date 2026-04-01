@@ -1,10 +1,17 @@
 "use client";
 
+import { differenceInCalendarDays } from "date-fns";
+import { createReservation } from "../_lib/actions";
 import { useReservation } from "./ReservationContext";
 
 function ReservationForm({ cabin, user }) {
   const { range } = useReservation();
   const { maxCapacity } = cabin;
+  const numNights =
+    range?.from && range?.to
+      ? differenceInCalendarDays(range.to, range.from)
+      : 0;
+  const isDateRangeSelected = numNights > 0;
 
   return (
     <div className="scale-[1.01]">
@@ -23,7 +30,21 @@ function ReservationForm({ cabin, user }) {
         </div>
       </div>
 
-      <form className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col">
+      <form
+        action={createReservation}
+        className="bg-primary-900 py-10 px-16 text-lg flex gap-5 flex-col"
+      >
+        <input type="hidden" name="cabinId" value={cabin.id} />
+        <input
+          type="hidden"
+          name="startDate"
+          value={range?.from?.toISOString() ?? ""}
+        />
+        <input
+          type="hidden"
+          name="endDate"
+          value={range?.to?.toISOString() ?? ""}
+        />
         <div className="space-y-2">
           <label htmlFor="numGuests">How many guests?</label>
           <select
@@ -60,6 +81,7 @@ function ReservationForm({ cabin, user }) {
 
           <button
             type="submit"
+            disabled={!isDateRangeSelected}
             className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
           >
             Reserve now

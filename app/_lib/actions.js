@@ -1,6 +1,12 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { differenceInCalendarDays } from "date-fns";
 import { auth, signIn, signOut } from "./auth";
+import {
+  createBooking,
+  getCabin,
+  getGuest,
+} from "./data-service";
 import { supabase } from "./supabase";
 
 export async function updateGuest(formData) {
@@ -32,4 +38,47 @@ export async function signInAction() {
 
 export async function signOutAction() {
   await signOut({ redirectTo: "/" });
+}
+
+export async function createReservation(formData) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+
+  const guest = await getGuest(session.user.email);
+  if (!guest) throw new Error("Guest record not found");
+
+  const cabinId = Number(formData.get("cabinId"));
+  const startDate = formData.get("startDate");
+  const endDate = formData.get("endDate");
+  const numGuests = Number(formData.get("numGuests"));
+  const observations = formData.get("observations")?.slice(0, 1000) ?? "";
+
+  if (!cabinId || !startDate || !endDate || !numGuests) {
+    throw new Error("Missing reservation details");
+  }
+
+  const cabin = await getCabin(cabinId);
+  const numNights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
+  const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
+
+  if (numNights <= 0) throw new Error("Please select a valid date range");
+
+  await createBooking({
+    startDate,
+    endDate,
+    numNights,
+    numGuests,
+    cabinPrice,
+    extrasPrice: 0,
+    totalPrice: cabinPrice,
+    status: "unconfirmed",
+    hasBreakfast: false,
+    isPaid: false,
+    observations,
+    guestId: guest.id,
+    cabinId,
+  });
+
+  revalidatePath(`/cabins/${cabinId}`);
+  revalidatePath("/account/reservations");
 }
