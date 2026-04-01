@@ -2,11 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { differenceInCalendarDays } from "date-fns";
 import { auth, signIn, signOut } from "./auth";
-import {
-  createBooking,
-  getCabin,
-  getGuest,
-} from "./data-service";
+import { createBooking, getCabin, getGuest } from "./data-service";
 import { supabase } from "./supabase";
 
 export async function updateGuest(formData) {
@@ -31,6 +27,20 @@ export async function updateGuest(formData) {
   }
 
   revalidatePath("/account/profile");
+}
+
+export async function deleteReservation(bookingId) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+  const { error } = await supabase
+    .from("bookings")
+    .delete()
+    .eq("id", bookingId);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Booking could not be deleted");
+  }
 }
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -58,7 +68,10 @@ export async function createReservation(formData) {
   }
 
   const cabin = await getCabin(cabinId);
-  const numNights = differenceInCalendarDays(new Date(endDate), new Date(startDate));
+  const numNights = differenceInCalendarDays(
+    new Date(endDate),
+    new Date(startDate),
+  );
   const cabinPrice = numNights * (cabin.regularPrice - cabin.discount);
 
   if (numNights <= 0) throw new Error("Please select a valid date range");
