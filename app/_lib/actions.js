@@ -1,8 +1,8 @@
 "use server";
 import { auth, signIn, signOut } from "./auth";
 
-export async function updateGuest(fromData) {
-  console.log(FormData);
+export async function updateGuest(formData) {
+  console.log(Object.fromEntries(formData.entries()));
 }
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
