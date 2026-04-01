@@ -2,7 +2,12 @@
 import { revalidatePath } from "next/cache";
 import { differenceInCalendarDays } from "date-fns";
 import { auth, signIn, signOut } from "./auth";
-import { createBooking, getBookings, getCabin, getGuest } from "./data-service";
+import {
+  createBooking as createBookingRecord,
+  getBookings,
+  getCabin,
+  getGuest,
+} from "./data-service";
 import { supabase } from "./supabase";
 
 export async function updateGuest(formData) {
@@ -29,7 +34,7 @@ export async function updateGuest(formData) {
   revalidatePath("/account/profile");
 }
 
-export async function deleteReservation(bookingId) {
+export async function deleteBooking(bookingId) {
   const session = await auth();
   if (!session) throw new Error("You must be logged in");
 
@@ -84,7 +89,7 @@ export async function createReservation(formData) {
 
   if (numNights <= 0) throw new Error("Please select a valid date range");
 
-  await createBooking({
+  const bookingData = {
     startDate,
     endDate,
     numNights,
@@ -98,7 +103,11 @@ export async function createReservation(formData) {
     observations,
     guestId: guest.id,
     cabinId,
-  });
+  };
+
+  console.log("bookingData", bookingData);
+
+  await createBookingRecord(bookingData);
 
   revalidatePath(`/cabins/${cabinId}`);
   revalidatePath("/account/reservations");

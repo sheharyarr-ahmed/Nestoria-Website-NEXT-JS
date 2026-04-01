@@ -2,7 +2,7 @@
 
 import { startTransition, useOptimistic } from "react";
 import ReservationCard from "./ReservationCard";
-import { deleteReservation } from "../_lib/actions";
+import { deleteBooking } from "../_lib/actions";
 
 function ReservationList({ bookings }) {
   const [optimisticBookings, optimisticDelete] = useOptimistic(
@@ -18,7 +18,7 @@ function ReservationList({ bookings }) {
     });
 
     try {
-      await deleteReservation(bookingId);
+      await deleteBooking(bookingId);
     } catch (error) {
       console.error(error);
       window.location.reload();

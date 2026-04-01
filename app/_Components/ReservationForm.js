@@ -6,11 +6,12 @@ import { useReservation } from "./ReservationContext";
 
 function ReservationForm({ cabin, user }) {
   const { range } = useReservation();
-  const { maxCapacity } = cabin;
+  const { maxCapacity, regularPrice, discount } = cabin;
   const numNights =
     range?.from && range?.to
       ? differenceInCalendarDays(range.to, range.from)
       : 0;
+  const cabinPrice = numNights * (regularPrice - discount);
   const isDateRangeSelected = numNights > 0;
 
   return (
@@ -77,7 +78,15 @@ function ReservationForm({ cabin, user }) {
         </div>
 
         <div className="flex justify-end items-center gap-6">
-          <p className="text-primary-300 text-base">Start by selecting dates</p>
+          {isDateRangeSelected ? (
+            <p className="text-primary-300 text-base">
+              {numNights} night{numNights > 1 ? "s" : ""} for ${cabinPrice}
+            </p>
+          ) : (
+            <p className="text-primary-300 text-base">
+              Start by selecting dates
+            </p>
+          )}
 
           <button
             type="submit"
