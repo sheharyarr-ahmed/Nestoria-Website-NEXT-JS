@@ -1,3 +1,5 @@
+"use client";
+
 import { PencilSquareIcon } from "@heroicons/react/24/solid";
 import { format, formatDistance, isPast, isToday, parseISO } from "date-fns";
 import DeleteReservation from "./DeleteReservation";
@@ -9,7 +11,7 @@ export const formatDistanceFromNow = (dateStr) =>
     addSuffix: true,
   }).replace("about ", "");
 
-function ReservationCard({ booking }) {
+function ReservationCard({ booking, onDelete }) {
   const {
     id,
     guestId,
@@ -22,16 +24,27 @@ function ReservationCard({ booking }) {
     created_at,
     cabins: { name, image },
   } = booking;
+  const imageSrc =
+    typeof image === "string" &&
+    (image.startsWith("/") ||
+      image.startsWith("http://") ||
+      image.startsWith("https://"))
+      ? image
+      : null;
 
   return (
     <div className="flex border border-primary-800">
       <div className="relative h-32 aspect-square">
-        <Image
-          src={image}
-          alt={`Cabin ${name}`}
-          fill
-          className="object-cover border-r border-primary-800"
-        />
+        {imageSrc ? (
+          <Image
+            src={imageSrc}
+            alt={`Cabin ${name}`}
+            fill
+            className="object-cover border-r border-primary-800"
+          />
+        ) : (
+          <div className="h-full w-full border-r border-primary-800 bg-primary-900" />
+        )}
       </div>
 
       <div className="flex-grow px-6 py-3 flex flex-col">
@@ -80,7 +93,7 @@ function ReservationCard({ booking }) {
               <PencilSquareIcon className="h-5 w-5 text-primary-600 group-hover:text-primary-800 transition-colors" />
               <span className="mt-1">Edit</span>
             </Link>
-            <DeleteReservation bookingId={id} />
+            <DeleteReservation bookingId={id} onDelete={onDelete} />
           </>
         ) : null}
       </div>
