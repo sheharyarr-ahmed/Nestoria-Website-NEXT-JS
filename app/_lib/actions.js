@@ -1,5 +1,5 @@
 "use server";
-import { auth, signIn } from "./auth";
+import { auth, signIn, signOut } from "./auth";
 
 auth;
 export async function signInAction() {
