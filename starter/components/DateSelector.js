@@ -1,4 +1,4 @@
-import { isWithinInterval } from "date-fns";
+import { isPast, isSameDay, isWithinInterval } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
@@ -19,6 +19,8 @@ function DateSelector() {
   const numNights = 23;
   const cabinPrice = 23;
   const range = { from: null, to: null };
+  const bookedDates = [];
+  const resetRange = () => {};
 
   // SETTINGS
   const minBookingLength = 1;
@@ -36,6 +38,10 @@ function DateSelector() {
         toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
+        disabled={(date) =>
+          isPast(date) || bookedDates.some((bookedDate) => isSameDay(bookedDate, date))
+        }
+        excludeDisabled
       />
 
       <div className="flex items-center justify-between px-8 bg-accent-500 text-primary-800 h-[72px]">
@@ -68,8 +74,9 @@ function DateSelector() {
 
         {range.from || range.to ? (
           <button
+            type="button"
             className="border border-primary-800 py-2 px-4 text-sm font-semibold"
-            onClick={() => resetRange()}
+            onClick={resetRange}
           >
             Clear
           </button>
