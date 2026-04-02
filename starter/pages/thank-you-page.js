@@ -1,4 +1,4 @@
-export default function Page() {
+iexport default function Page() {
   return (
     <div className="text-center space-y-6 mt-4">
       <h1 className="text-3xl font-semibold">
