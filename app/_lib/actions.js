@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { differenceInCalendarDays } from "date-fns";
 import { auth, signIn, signOut } from "./auth";
 import { getBookings, getCabin, getGuest } from "./data-service";
@@ -61,7 +62,11 @@ export async function createBooking(bookingData, formData) {
 
   console.log("bookingData", newBooking);
 
-  const { error } = await supabase.from("bookings").insert([newBooking]);
+  const { data, error } = await supabase
+    .from("bookings")
+    .insert([newBooking])
+    .select()
+    .single();
 
   if (error) {
     console.error(error);
@@ -70,6 +75,17 @@ export async function createBooking(bookingData, formData) {
 
   revalidatePath(`/cabins/${bookingData.cabinId}`);
   revalidatePath("/account/reservations");
+
+  const searchParams = new URLSearchParams({
+    reservationId: String(data.id),
+    cabin: `Cabin ${cabin.name}`,
+    startDate: bookingData.startDate,
+    endDate: bookingData.endDate,
+    numGuests: String(newBooking.numGuests),
+    totalPrice: String(newBooking.totalPrice),
+  });
+
+  redirect(`/thank-you?${searchParams.toString()}`);
 }
 
 export async function deleteBooking(bookingId) {
